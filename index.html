@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WiFiDrop — نقل الملفات بسرعة فائقة عبر الواي فاي</title>
+  <link rel="icon" href="https://raw.githubusercontent.com/Ahmedbecett/WiFiDrop/main/app/src/main/res/drawable/app_icon_fg_1791040609888.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #06B6D4;
+      --primary-glow: rgba(6, 182, 212, 0.4);
+      --indigo: #4F46E5;
+      --bg-dark: #0B0F19;
+      --card-bg: rgba(17, 24, 39, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-main: #F3F4F6;
+      --text-muted: #9CA3AF;
+      --success: #10B981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Cairo', 'Inter', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      line-height: 1.6;
+      overflow-x: hidden;
+      min-height: 100vh;
+      background-image: 
+        radial-gradient(circle at 15% 20%, rgba(79, 70, 229, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 60%, rgba(6, 182, 212, 0.18) 0%, transparent 50%),
+        radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.1) 0%, transparent 40%);
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navbar */
+    header {
+      padding: 24px 0;
+      border-bottom: 1px solid var(--card-border);
+      backdrop-filter: blur(16px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo-group {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .app-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px var(--primary-glow);
+      object-fit: cover;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FFF 30%, var(--primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .btn-github {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: #FFF;
+      padding: 10px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-github:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-1px);
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(6, 182, 212, 0.12);
+      border: 1px solid rgba(6, 182, 212, 0.3);
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .hero-title {
+      font-size: clamp(34px, 5.5vw, 56px);
+      font-weight: 900;
+      line-height: 1.25;
+      margin-bottom: 20px;
+      background: linear-gradient(180deg, #FFFFFF 0%, #D1D5DB 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-highlight {
+      background: linear-gradient(135deg, var(--primary) 0%, #38BDF8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 18px;
+      color: var(--text-muted);
+      max-width: 680px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+
+    .cta-group {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--indigo) 100%);
+      color: #FFF;
+      padding: 16px 36px;
+      border-radius: 14px;
+      font-size: 17px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 8px 30px var(--primary-glow);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(6, 182, 212, 0.5);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--card-border);
+      color: #FFF;
+      padding: 16px 28px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.08);
+      transform: translateY(-2px);
+    }
+
+    /* Meta Badges */
+    .meta-bar {
+      display: flex;
+      justify-content: center;
+      gap: 28px;
+      color: var(--text-muted);
+      font-size: 14px;
+      flex-wrap: wrap;
+    }
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .meta-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      display: inline-block;
+    }
+
+    /* Grid Section */
+    .features-section {
+      padding: 60px 0;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .section-title {
+      font-size: 30px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 32px 24px;
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(6, 182, 212, 0.4);
+      transform: translateY(-4px);
+    }
+
+    .card-icon {
+      font-size: 32px;
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: rgba(6, 182, 212, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      border: 1px solid rgba(6, 182, 212, 0.2);
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #FFF;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.7;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid var(--card-border);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-top: 60px;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      margin-bottom: 16px;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container nav-wrapper">
+      <a href="#" class="logo-group">
+        <img class="app-icon" src="https://raw.githubusercontent.com/Ahmedbecett/WiFiDrop/main/app/src/main/res/drawable/app_icon_fg_1791040609888.jpg" alt="WiFiDrop">
+        <span class="logo-text">WiFiDrop</span>
+      </a>
+      <div class="nav-actions">
+        <a href="https://github.com/Ahmedbecett/WiFiDrop" target="_blank" class="btn-github">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+          المستودع
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="container">
+    <section class="hero">
+      <div class="badge-pill">
+        <span class="meta-dot"></span>
+        تحديث جديد: إصدار WiFiDrop v1.1 متوفر الآن
+      </div>
+
+      <h1 class="hero-title">
+        نقل ملفات فوري وخارق السرعة<br>
+        <span class="hero-highlight">عبر شبكة الواي فاي المحلية</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        تطبيق أندرويد متطور لنقل الصور والفيديوهات والملفات الضخمة بين الهواتف وأجهزة الكمبيوتر (PC & Mac) مباشرة عبر شبكة الواي فاي بدون استهلاك الإنترنت وبدون برامج إضافية.
+      </p>
+
+      <div class="cta-group">
+        <a href="https://github.com/Ahmedbecett/WiFiDrop/releases/download/v1.1/WiFiDrop-v1.1.apk" class="btn-primary">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          تحميل التطبيق APK (الإصدار 1.1)
+        </a>
+
+        <a href="https://ais-pre-n64kiw4kpm44lgq2pbhu2x-934029719560.europe-west2.run.app" target="_blank" class="btn-secondary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+          تشغيل ومعاينة التطبيق أونلاين
+        </a>
+      </div>
+
+      <div class="meta-bar">
+        <div class="meta-item">
+          <span class="meta-dot"></span>
+          سرعة قصوى تصل إلى 40 MB/s
+        </div>
+        <div class="meta-item">
+          ⚡ بدون إنترنت إطلاقاً
+        </div>
+        <div class="meta-item">
+          💻 متوافق مع كافة المتصفحات (Chrome, Safari, Edge)
+        </div>
+        <div class="meta-item">
+          🔒 حماية برمز PIN و QR Code
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features-section">
+      <div class="section-header">
+        <h2 class="section-title">أهم مميزات التطبيق</h2>
+        <p style="color: var(--text-muted)">تم تصميمه بأحدث معايير Material 3 لتقديم تجربة نقل فائقة السهولة والأمان</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="card">
+          <div class="card-icon">⚡</div>
+          <h3 class="card-title">نقل محلي فائق السرعة</h3>
+          <p class="card-desc">استفد من كامل النطاق الترددي لشبكة الواي فاي المنزلية أو نقطة الاتصال (Hotspot) لنقل الفيديوهات والملفات بدقة 4K بدون أي ضغط أو تقليل للجودة.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">💻</div>
+          <h3 class="card-title">واجهة ويب للكمبيوتر</h3>
+          <p class="card-desc">افتح الرابط المحلي في أي متصفح على اللابتوب أو الماك، واسحب الملفات لتنزل على الهاتف فوراً مع شريط تقدم حي ومباشر.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📱</div>
+          <h3 class="card-title">مسح QR ورمز PIN</h3>
+          <p class="card-desc">اتصال فوري بمجرد توجيه كاميرا الهاتف الآخر لرمز الـ QR المدمج، مع إمكانية تفعيل رمز حماية PIN لمنع أي وصول غير مصرح به.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📁</div>
+          <h3 class="card-title">مدير ملفات ذكي</h3>
+          <p class="card-desc">تصنيف تلقائي للملفات المستلمة (صور، فيديوهات، مستندات، صوتيات، أرشيف) مع أدوات البحث والترتيب والمشاركة السريعة.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📜</div>
+          <h3 class="card-title">سجل العمليات المحلي</h3>
+          <p class="card-desc">قاعدة بيانات Room مدمجة تحفظ تواريخ وسرعات وحالات كل عملية نقل مع مؤشرات واضحة لحجم النقل والوقت المستغرق.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🌍</div>
+          <h3 class="card-title">دعم كامل للغات</h3>
+          <p class="card-desc">واجهة عربية متكاملة تدعم اتجاه اليمين لليسار (RTL)، إلى جانب الإنجليزية والفرنسية والإسبانية بتبديل فوري من الإعدادات.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://github.com/Ahmedbecett/WiFiDrop">مستودع المشروع</a>
+        <a href="https://github.com/Ahmedbecett/WiFiDrop/releases">سجل الإصدارات</a>
+        <a href="https://ais-pre-n64kiw4kpm44lgq2pbhu2x-934029719560.europe-west2.run.app">المعاينة السحابية</a>
+      </div>
+      <p>© 2026 تطبيق <strong>WiFiDrop</strong>. طور بكل شغف بواسطة <strong>Ahmed Becetti</strong>.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
