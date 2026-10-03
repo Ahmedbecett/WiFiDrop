@@ -540,9 +540,20 @@ fun HomeScreen(
             confirmButton = {
                 Button(
                     onClick = {
-                        viewModel.unlockPerk()
+                        val activity = context as? android.app.Activity
+                        if (activity != null) {
+                            com.example.util.AdManager.showRewarded(
+                                activity = activity,
+                                onUserEarnedReward = {
+                                    viewModel.unlockPerk()
+                                    Toast.makeText(context, "Turbo Transfer Boost activated! 🚀", Toast.LENGTH_SHORT).show()
+                                }
+                            )
+                        } else {
+                            viewModel.unlockPerk()
+                            Toast.makeText(context, "Turbo Transfer Boost activated! 🚀", Toast.LENGTH_SHORT).show()
+                        }
                         showRewardDialog = false
-                        Toast.makeText(context, "Turbo Transfer Boost activated! 🚀", Toast.LENGTH_SHORT).show()
                     }
                 ) {
                     Text("Watch & Unlock")

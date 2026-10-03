@@ -49,12 +49,14 @@ import com.example.ui.screens.StorageScreen
 import com.example.ui.screens.TransferHistoryScreen
 import com.example.ui.theme.BrandCyan
 import com.example.ui.theme.WiFiDropTheme
+import com.example.util.AdManager
 import com.example.util.AppLanguage
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        AdManager.initialize(this)
         setContent {
             val viewModel: MainViewModel = viewModel()
             val isDarkTheme by viewModel.isDarkTheme.collectAsState()
