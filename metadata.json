@@ -1,0 +1,6 @@
+{
+  "name": "WiFiDrop",
+  "description": "Fast, local, account-free Wi-Fi file transfer between phone, PC, and devices with built-in Web interface, QR connection, PIN security, and file manager.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
