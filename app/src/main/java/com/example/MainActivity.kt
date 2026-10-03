@@ -55,6 +55,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        com.example.util.AdManager.initialize(this)
         setContent {
             val viewModel: MainViewModel = viewModel()
             val isDarkTheme by viewModel.isDarkTheme.collectAsState()
