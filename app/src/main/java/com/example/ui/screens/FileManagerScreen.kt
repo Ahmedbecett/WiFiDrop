@@ -260,7 +260,13 @@ fun FileManagerScreen(
                     items(filteredFiles, key = { it.id }) { file ->
                         FileItemRow(
                             fileInfo = file,
-                            onOpen = { FileUtils.openFile(context, file) },
+                            onOpen = {
+                                if (file.name.endsWith(".pdf", ignoreCase = true)) {
+                                    viewModel.openPdfFile(java.io.File(file.path))
+                                } else {
+                                    FileUtils.openFile(context, file)
+                                }
+                            },
                             onShare = { FileUtils.shareFile(context, file) },
                             onRename = {
                                 fileToRename = file

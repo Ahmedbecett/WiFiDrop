@@ -36,7 +36,8 @@ enum class Screen {
     FILES,
     HISTORY,
     STORAGE,
-    SETTINGS
+    SETTINGS,
+    PDF_VIEWER
 }
 
 data class SelectedFileItem(
@@ -104,6 +105,37 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _cacheSize = MutableStateFlow(0L)
     val cacheSize: StateFlow<Long> = _cacheSize.asStateFlow()
+
+    // PDF Viewer State
+    private val _selectedPdfFile = MutableStateFlow<java.io.File?>(null)
+    val selectedPdfFile: StateFlow<java.io.File?> = _selectedPdfFile.asStateFlow()
+
+    fun openPdfFile(file: java.io.File) {
+        _selectedPdfFile.value = file
+        navigateTo(Screen.PDF_VIEWER)
+    }
+
+    fun openPdfUri(context: android.content.Context, uri: Uri) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val file = com.example.util.PdfUtils.getFileFromUri(context, uri)
+            if (file != null) {
+                withContext(Dispatchers.Main) {
+                    _selectedPdfFile.value = file
+                    navigateTo(Screen.PDF_VIEWER)
+                }
+            }
+        }
+    }
+
+    fun openSamplePdf(context: android.content.Context) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val file = com.example.util.PdfUtils.createSamplePdf(context)
+            withContext(Dispatchers.Main) {
+                _selectedPdfFile.value = file
+                navigateTo(Screen.PDF_VIEWER)
+            }
+        }
+    }
 
     // Device IP
     private val _localIp = MutableStateFlow(NetworkUtils.getLocalIpAddress(application) ?: "192.168.1.100")

@@ -69,7 +69,7 @@ class MainActivity : ComponentActivity() {
                     Scaffold(
                         modifier = Modifier.fillMaxSize(),
                         bottomBar = {
-                            if (currentScreen != Screen.SEND && currentScreen != Screen.RECEIVE) {
+                            if (currentScreen != Screen.SEND && currentScreen != Screen.RECEIVE && currentScreen != Screen.PDF_VIEWER) {
                                 NavigationBar(
                                     containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.95f),
                                     tonalElevation = 8.dp,
@@ -184,6 +184,13 @@ class MainActivity : ComponentActivity() {
                                 Screen.HISTORY -> TransferHistoryScreen(viewModel = viewModel)
                                 Screen.STORAGE -> StorageScreen(viewModel = viewModel)
                                 Screen.SETTINGS -> SettingsScreen(viewModel = viewModel)
+                                Screen.PDF_VIEWER -> {
+                                    val pdfFile by viewModel.selectedPdfFile.collectAsState()
+                                    com.example.ui.screens.PdfViewerScreen(
+                                        pdfFile = pdfFile ?: com.example.util.PdfUtils.createSamplePdf(this@MainActivity),
+                                        onBack = { viewModel.navigateTo(Screen.HOME) }
+                                    )
+                                }
                             }
                         }
                     }
